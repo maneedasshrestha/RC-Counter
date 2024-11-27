@@ -4,7 +4,7 @@ const redButton = document.getElementById('redButton');
 const incrementButton = document.getElementById('increment');
 const decrementButton = document.getElementById('decrement');
 const coinSound = document.getElementById('coinSound');
-const powerUp=document.getElementById('powerUpSound');
+const powerUpSound = document.getElementById('powerUpSound'); // Add this for power-up sound
 
 // Initialize counter value
 let counter = 0;
@@ -23,19 +23,22 @@ function saveCounter() {
   localStorage.setItem('counter', counter);
 }
 
+// Check for multiples of 50 and play the power-up sound
+function checkPowerUp() {
+  if (counter % 50 === 0 && counter !== 0) {
+    powerUpSound.currentTime = 0; // Reset playback
+    powerUpSound.play();
+  }
+}
+
 // Play coin sound and increment counter
 redButton.addEventListener('click', () => {
-  coinSound.currentTime = 0; // Reset audio playback
-  powerUp.currentTime=0;
-  if((counter+1)%10==0){
-    powerUp.play();
-  }
-  else{
-    coinSound.play();
-  }
+  coinSound.currentTime = 0; // Reset playback
+  coinSound.play();
   counter++;
   counterDisplay.textContent = counter;
   saveCounter();
+  checkPowerUp(); // Check for multiples of 50
 });
 
 // Increment counter silently
@@ -43,6 +46,7 @@ incrementButton.addEventListener('click', () => {
   counter++;
   counterDisplay.textContent = counter;
   saveCounter();
+  checkPowerUp(); // Check for multiples of 50
 });
 
 // Decrement counter silently
@@ -50,6 +54,7 @@ decrementButton.addEventListener('click', () => {
   counter--;
   counterDisplay.textContent = counter;
   saveCounter();
+  checkPowerUp(); // Check for multiples of 50
 });
 
 // Load counter on page load
